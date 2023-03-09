@@ -1,0 +1,73 @@
+# Tic-Tac-Toe
+#simple python code for TicTacToe game
+# Tic Tac Toe Game
+
+board = [' ' for i in range(9)]  # Initialize empty board
+
+
+def print_board():
+    print('|...........|')
+    print('| ' + board[0] + ' | ' + board[1] + ' | ' + board[2] + ' |')
+    print('|...........|')
+    print('| ' + board[3] + ' | ' + board[4] + ' | ' + board[5] + ' |')
+    print('|...........|')
+    print('| ' + board[6] + ' | ' + board[7] + ' | ' + board[8] + ' |')
+    print('|...........|')
+
+
+def check_win(player):
+    # Check rows
+    if (board[0] == player and board[1] == player and board[2] == player) or \
+            (board[3] == player and board[4] == player and board[5] == player) or \
+            (board[6] == player and board[7] == player and board[8] == player):
+        return True
+    # Check columns
+    elif (board[0] == player and board[3] == player and board[6] == player) or \
+            (board[1] == player and board[4] == player and board[7] == player) or \
+            (board[2] == player and board[5] == player and board[8] == player):
+        return True
+    # Check diagonals
+    elif (board[0] == player and board[4] == player and board[8] == player) or \
+            (board[2] == player and board[4] == player and board[6] == player):
+        return True
+    else:
+        return False
+
+
+def play():
+    turn = 'X'
+    count = 0
+
+    while True:
+        print_board()
+        move = input("It's " + turn + "'s turn. Enter position (1-9): ")
+
+        try:
+            move = int(move) - 1
+            if move < 0 or move > 8:
+                raise ValueError()
+            elif board[move] != ' ':
+                raise IndexError()
+        except ValueError:
+            print("Invalid input. Try again.")
+            continue
+        except IndexError:
+            print("That position is already taken. Try again.")
+            continue
+
+        board[move] = turn
+        count += 1
+
+        if check_win(turn):
+            print_board()
+            print("Congratulations! " + turn + " wins!")
+            break
+        elif count == 9:
+            print_board()
+            print("It's a tie!")
+            break
+
+        turn = 'O' if turn == 'X' else 'X'  # Change turns
+
+
+play()
